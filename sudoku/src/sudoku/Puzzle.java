@@ -49,22 +49,22 @@ public class Puzzle {
 		playingPuzzle.get(row).set(col, number);
 	}
 	
-	public void display() {
-		display(playingPuzzle);
-	}
-	
-	public void displaySolved() {
-		display(solvedPuzzle);
-	}
-	
-	private void display(List<ArrayList<Integer>> puzzle) {
-		for (int i=0; i<9; i++) {
-			for (int j=0; j<9; j++) {
-				System.out.print(puzzle.get(i).get(j) + " ");
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
+//	public void display() {
+//		display(playingPuzzle);
+//	}
+//	
+//	public void displaySolved() {
+//		display(solvedPuzzle);
+//	}
+//	
+//	private void display(List<ArrayList<Integer>> puzzle) {
+//		for (int i=0; i<9; i++) {
+//			for (int j=0; j<9; j++) {
+//				System.out.print(puzzle.get(i).get(j) + " ");
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
+//	}
 
 }

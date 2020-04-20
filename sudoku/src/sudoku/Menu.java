@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -27,6 +28,9 @@ public class Menu extends JFrame {
 	private JRadioButton rdbtnEasy;
 	private JRadioButton rdbtnHard;
 	private JRadioButton rdbtnMedium;
+	private JTextField JTextFromFile;
+	private Puzzle puzzle;
+	private JLabel lblFromFile;
 	private JRadioButton rdbtnFromFile;
 	
 	/**
@@ -53,7 +57,7 @@ public class Menu extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Menu.class.getResource("/resources/soduku.png")));
 		setTitle("Menu");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 350, 284);
+		setBounds(100, 100, 350, 367);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -97,9 +101,18 @@ public class Menu extends JFrame {
 		panelLevel.add(rdbtnEasy);
 		
 		rdbtnFromFile = new JRadioButton("From File");
-		rdbtnFromFile.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		level.add(rdbtnFromFile);
+		rdbtnFromFile.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		panelLevel.add(rdbtnFromFile);
+		
+		lblFromFile = new JLabel("From File:");
+		lblFromFile.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		panelLevel.add(lblFromFile);
+		
+		JTextFromFile = new JTextField();
+		JTextFromFile.setColumns(20);
+		JTextFromFile.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		panelLevel.add(JTextFromFile);
 		return panelLevel;
 	}
 
@@ -114,29 +127,35 @@ public class Menu extends JFrame {
 				Difficulty diff;
 				if(rdbtnEasy.isSelected()) {
 					diff = Difficulty.EASY;
+					puzzle = PuzzleCreator.generate(diff);
 				}
 					
 				else if(rdbtnMedium.isSelected()) {
 					diff = Difficulty.MEDIUM;
+					puzzle = PuzzleCreator.generate(diff);
 				}
 
 
 				else if(rdbtnHard.isSelected()) {
 					diff = Difficulty.HARD;
+					puzzle = PuzzleCreator.generate(diff);
 				}
 
 				else if(rdbtnFromFile.isSelected()) {
-					diff = Difficulty.EASY;
+					puzzle = PuzzleCreator.fromFile(JTextFromFile.getText());
+					diff = puzzle.getDifficulty();
 				}
 				else {
 					diff = Difficulty.EASY;
+					puzzle = PuzzleCreator.generate(diff);
 				}
-				Game game = new Game(diff);
-				game.run(diff);
+				Game game = new Game(diff, puzzle);
+				game.run(diff, puzzle);
 				frame.setVisible(false);
 			}
 		});
 		return btnStart;
 	}
+	
 
 }
