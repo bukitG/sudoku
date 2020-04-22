@@ -33,6 +33,12 @@ public class Game extends JFrame {
 	 * Launch the application.
 	 */
 	public void run(Difficulty diff, Puzzle puzzle) {
+		JOptionPane.showMessageDialog(null,
+				"Quick Instructions:\nCheck Button: Tells you what is wrong or right\n"
+				+ "Solved Button: Tells you if it is totally solved or not.\n"
+				+ "New Game Button: Sends you Back to the menu and gets rid of current game.\n"
+				+ "Save: Saves to file for later or to have friends try.\n"
+				+ "Restart: sets it back to original.");
 		try {
 			Game frame = new Game(diff, puzzle);
 			frame.setVisible(true);
@@ -66,7 +72,6 @@ public class Game extends JFrame {
 
 		JPanel sideControl = sidePanel();
 		contentPane.add(sideControl, BorderLayout.WEST);
-
 	}
 
 	/**
@@ -244,12 +249,12 @@ public class Game extends JFrame {
 				x += 48;
 				if (j % 3 == 0 && j > 0)
 					x += 3;
-				if (puzzle.get(i, j) == 0) {
+				if (puzzle.getOriginal(i, j) == 0) {
 					JTextField current = new JTextField();
 					current.setColumns(1);
 					current.setHorizontalAlignment(SwingConstants.CENTER);
 					grid[i][j] = current;
-				} else if (puzzle.get(i, j) != 0) {
+				} else if (puzzle.getOriginal(i, j) != 0) {
 					JLabel fin = new JLabel(puzzle.get(i, j).toString());
 					fin.setHorizontalAlignment(SwingConstants.CENTER);
 					fin.setBackground(Color.LIGHT_GRAY);
