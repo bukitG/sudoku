@@ -45,8 +45,47 @@ public class Puzzle {
 		return playingPuzzle.get(row).get(col);
 	}
 	
+	/**
+	 * Returns the value at a position.
+	 * 
+	 * @param row
+	 * @param col
+	 * @return original puzzle value at specified position
+	 */
+	public Integer getOriginal(int row, int col) {
+		return originalPuzzle.get(row).get(col);
+	}
+	
 	public void set(int row, int col, int number) {
 		playingPuzzle.get(row).set(col, number);
+	}
+	
+	/**
+	 * Checks whether or not the the guesses are right or wrong.
+	 * 
+	 * @param row
+	 * @param colunm
+	 * @return bolean
+	 */
+	public boolean check(int row, int col) {
+		if(playingPuzzle.get(row).get(col) == solvedPuzzle.get(row).get(col)) 
+			return true;
+		else
+			return false;
+	}
+	
+	/**
+	 * Checks whether or not the number is part of the original or not.
+	 * 
+	 * @param row
+	 * @param colunm
+	 * @return bolean
+	 */
+	public boolean checkOriginal(int row, int col) {
+		if(playingPuzzle.get(row).get(col) == originalPuzzle.get(row).get(col)) 
+			return true;
+		else
+			return false;
 	}
 	
 //	public void display() {
