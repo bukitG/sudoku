@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 /**
  * Creates the background of the game to look like sudoku board.
  * 
- * @author alexp
+ * @author Alex
  *
  */
 public class Board extends JPanel {

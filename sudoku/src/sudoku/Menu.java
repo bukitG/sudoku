@@ -19,6 +19,13 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * This creates the menu that pops up on start up to allow for the game to be created
+ * based on user choice.
+ * 
+ * @author Alex + Zac
+ *
+ */
 public class Menu extends JFrame {
 	/**
 	 * Serial Version 7141832526268101244L

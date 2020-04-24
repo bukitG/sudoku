@@ -23,6 +23,12 @@ import javax.swing.JTextField;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 
+/**
+ * Game is the gui and the interactive part of the app.
+ * 
+ * @author Alex + Zac
+ *
+ */
 public class Game extends JFrame {
 	/**
 	 * Serial Version 8632333650720793099L.
