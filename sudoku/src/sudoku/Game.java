@@ -32,7 +32,7 @@ public class Game extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public void run(Difficulty diff, Puzzle puzzle) {
+	public void run(Difficulty diff) {
 		JOptionPane.showMessageDialog(null,
 				"Quick Instructions:\nCheck Button: Tells you what is wrong or right\n"
 				+ "Solved Button: Tells you if it is totally solved or not.\n"
@@ -55,7 +55,7 @@ public class Game extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Game.class.getResource("/Resources/soduku.png")));
 		setTitle("Play");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 692, 567);
+		setBounds(100, 100, 692, 577);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -104,6 +104,7 @@ public class Game extends JFrame {
 		btnCheck.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		btnCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				setGuesses();
 				int x;
 				int y;
@@ -148,7 +149,7 @@ public class Game extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setGuesses();
 				if (puzzle.isSolved())
-					JOptionPane.showMessageDialog(null, "Congratulations");
+					JOptionPane.showMessageDialog(null, "Congratulations!");
 				else
 					JOptionPane.showMessageDialog(null,
 							"The puzzle is not complete.\n" + "Try to use the check button to see what is correct.");
@@ -204,12 +205,16 @@ public class Game extends JFrame {
 					for (int i = 0; i < 9; i++) {
 						for (int j = 0; j < 9; j++) {
 							puzzle.set(i, j, puzzle.getOriginal(i, j));
-							setUpGrid(mainPanel);
-							mainPanel.repaint();
+							
 						}
 					}
+					mainPanel.removeAll();
+					setUpGrid(mainPanel);
+					mainPanel.repaint();
 				} else if (rdbtnSave.isSelected()) {
-					// save to a file
+					mainPanel.removeAll();
+					setGuesses();
+					PuzzleCreator.toFile(puzzle, "puzzle");
 				} else {
 
 				}
@@ -238,6 +243,7 @@ public class Game extends JFrame {
 	 * @param mainPanel
 	 */
 	private void setUpGrid(JPanel mainPanel) {
+		mainPanel.removeAll();
 		grid = new JComponent[9][9];
 		int x;
 		int y = 8;
@@ -251,6 +257,9 @@ public class Game extends JFrame {
 					x += 3;
 				if (puzzle.getOriginal(i, j) == 0) {
 					JTextField current = new JTextField();
+					if (puzzle.get(i, j) != 0) {
+						current.setText(Integer.toString(puzzle.get(i, j)));
+					}
 					current.setColumns(1);
 					current.setHorizontalAlignment(SwingConstants.CENTER);
 					grid[i][j] = current;
@@ -287,4 +296,5 @@ public class Game extends JFrame {
 		}
 
 	}
+	
 }

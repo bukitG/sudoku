@@ -2,6 +2,11 @@ package sudoku;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,8 +14,27 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.swing.JOptionPane;
+
+
+
+/**
+ * Provides necessary functionality for puzzle objects. This class provides the ability to solve, create, and save puzzles.
+ * 
+ * @author Zac and Alex
+ *
+ */
 public class PuzzleCreator {
+	/**
+	 * Writes the puzzle to a file.
+	 * 
+	 * @param puzzle the puzzle to be written
+	 * @param fileName the name of the file
+	 */
 	public static void toFile(Puzzle puzzle, String fileName) {
+		if (!fileName.contains(".")) {
+			fileName = fileName + ".pzl";
+		}
 		try (BufferedWriter fileOut = Files.newBufferedWriter(
 				Paths.get(fileName),
 				Charset.defaultCharset(),
@@ -20,23 +44,46 @@ public class PuzzleCreator {
 			fileOut.write(puzzle.getDifficulty() + "\n\n");
 			for (int i=0; i<9; i++) {
 				for (int j=0; j<9; j++) {
+					fileOut.write(puzzle.getOriginal(i, j) + " ");
+				}
+				fileOut.write("\n");
+			}
+			
+			for (int i=0; i<9; i++) {
+				for (int j=0; j<9; j++) {
 					fileOut.write(puzzle.get(i, j) + " ");
 				}
 				fileOut.write("\n");
 			}
 		}
 		catch(Exception e) {
-			System.out.println("The puzzle could not be exported to a file.");
+			JOptionPane.showMessageDialog(null, "The puzzle could not be exported to a file.");
 		}
+		
+		/*try (ObjectOutputStream serializer = new ObjectOutputStream(new FileOutputStream(fileName))) {
+    		serializer.writeObject(puzzle);
+    	} catch (IOException e) {
+    		JOptionPane.showMessageDialog(null, "The puzzle could not be exported to a file.");
+		}*/
 	}
 	
+	/**
+	 * Creates a puzzle object based on the contents of a file.
+	 * 
+	 * @param fileName the name of the file
+	 * @return the puzzle object contained in the file
+	 */
 	public static Puzzle fromFile(String fileName) {
+		if (!fileName.contains(".")) {
+			fileName = fileName + ".pzl";
+		}
 		try (BufferedReader fileIn = Files.newBufferedReader(
 				Paths.get(fileName),
 				Charset.defaultCharset()))
 		{
 			Puzzle p;
 			ArrayList<ArrayList<Integer>> puzzle = new ArrayList<ArrayList<Integer>>();
+			ArrayList<ArrayList<Integer>> playingPuzzle = new ArrayList<ArrayList<Integer>>();
 			Difficulty difficulty;
 			String d = fileIn.readLine();
 			fileIn.readLine();
@@ -57,20 +104,48 @@ public class PuzzleCreator {
 					tempLine = tempLine.substring(2);
 				}
 			}
-			p = new Puzzle(puzzle, solve(puzzle), difficulty);
+			for (int i=0; i<9; i++) {
+				playingPuzzle.add(new ArrayList<Integer>());
+				String tempLine = fileIn.readLine();
+				for (int j=0; j<9; j++) {
+					playingPuzzle.get(i).add(Integer.parseInt(tempLine.substring(0,1)));
+					tempLine = tempLine.substring(2);
+				}
+			}
+			p = new Puzzle(puzzle, playingPuzzle, solve(puzzle), difficulty);
 			return p;
 		}
 		catch(Exception e) {
-			System.out.println("The puzzle could not be created.");
+			JOptionPane.showMessageDialog(null, "An error occurred. Starting game with an easy puzzle");
 		}
-		return null;
+		/*try (ObjectInputStream deserializer = new ObjectInputStream(new FileInputStream(fileName))) {
+    		Puzzle demo = (Puzzle)deserializer.readObject();
+    		return demo;
+    	} catch (IOException e) {
+    		JOptionPane.showMessageDialog(null, "An error occurred. Starting game with an easy puzzle");
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "An error occurred. Starting game with an easy puzzle");
+		}*/
+		return generate(Difficulty.EASY);
 	}
 	
+	/**
+	 * Generates a puzzle based on difficulty.
+	 * 
+	 * @param difficulty the difficulty of the desired puzzle
+	 * @return the generated puzzle
+	 */
 	public static Puzzle generate(Difficulty difficulty) {
 		ArrayList<ArrayList<Integer>> solvedPuzzle = generateSolvedPuzzle();
 		return new Puzzle(generateArrayListPuzzle(solvedPuzzle, difficulty), solvedPuzzle, difficulty);
 	}
 	
+	/**
+	 * Solves a given puzzle.
+	 * 
+	 * @param originalPuzzle the original puzzle
+	 * @return the solution
+	 */
 	public static ArrayList<ArrayList<Integer>> solve(ArrayList<ArrayList<Integer>> originalPuzzle) {
 		int iStart = 0;
 		int jStart = 0;
@@ -195,9 +270,8 @@ public class PuzzleCreator {
 	
 	private static ArrayList<ArrayList<Integer>> generateArrayListPuzzle(ArrayList<ArrayList<Integer>> solvedPuzzle, Difficulty difficulty) {
 		int puzMin = 17;
-        int puzTotal = 81;
-        int step = 5;
-        int numDelete = puzTotal - (puzMin + step*difficulty.getDifficulty());
+        int step = 12;
+        int numDelete = puzMin + step*difficulty.getDifficulty();
         int row;
         int column;
 		ArrayList<ArrayList<Integer>> puzzle = new ArrayList<ArrayList<Integer>>();

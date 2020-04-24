@@ -1,9 +1,9 @@
 package sudoku;
 
 public enum Difficulty {
-	EASY(3),
+	EASY(1),
 	MEDIUM(2),
-	HARD(1);
+	HARD(3);
 	
 	private int difficulty;
 	

@@ -1,14 +1,33 @@
 package sudoku;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Puzzle {
+/**
+ * Contains the necessary information to play a sudoku game. This object 
+ * requires the original puzzle, solved puzzle, and difficulty to be created.
+ * 
+ * @author Zac and Alex
+ *
+ */
+public class Puzzle implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8801662294765010210L;
 	private final List<ArrayList<Integer>> originalPuzzle;
 	private final List<ArrayList<Integer>> solvedPuzzle;
 	private List<ArrayList<Integer>> playingPuzzle;
 	private Difficulty difficulty;
 	
+	/**
+	 * Constructs a puzzle.
+	 * 
+	 * @param puzzle the original puzzle
+	 * @param solvedPuzzle the solved puzzle
+	 * @param difficulty the difficulty of the puzzle
+	 */
 	public Puzzle(ArrayList<ArrayList<Integer>> puzzle, ArrayList<ArrayList<Integer>> solvedPuzzle, Difficulty difficulty) {
 		originalPuzzle = new ArrayList<ArrayList<Integer>>();
 		playingPuzzle = new ArrayList<ArrayList<Integer>>();
@@ -26,10 +45,47 @@ public class Puzzle {
 		this.difficulty = difficulty;
 	}
 	
+	public Puzzle(ArrayList<ArrayList<Integer>> puzzle, ArrayList<ArrayList<Integer>> playingPuzzle, ArrayList<ArrayList<Integer>> solvedPuzzle, Difficulty difficulty) {
+		this(puzzle, solvedPuzzle, difficulty);
+		this.playingPuzzle = new ArrayList<ArrayList<Integer>>();
+		for (int i=0; i<9; i++) {
+        	this.playingPuzzle.add(new ArrayList<Integer>());
+        	for (int j=0; j<9; j++) {
+        		this.playingPuzzle.get(i).add(playingPuzzle.get(i).get(j));
+        	}
+        }
+		this.difficulty = difficulty;
+	}
+	/**
+	 * Determines if the puzzle has been solved.
+	 * @return true if the puzzle has been solved.
+	 */
 	public boolean isSolved() {
+		ArrayList<ArrayList<Integer>> cols = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> box = new ArrayList<ArrayList<Integer>>();
+		for (int i=0; i<9; i++) {
+			cols.add(new ArrayList<Integer>());
+			box.add(new ArrayList<Integer>());
+			for (int j=0; j<9; j++) {
+				cols.get(i).add(playingPuzzle.get(j).get(i));
+			}
+		}
+		
+		int numCol = 0;
+		for (int row=0; row<9; row=row+3) {
+			for (int col=0; col<9; col=col+3) {
+				for (int i=row; i<row+3; i++) {
+					for (int j=col; j<col+3; j++) {
+						box.get(numCol).add(playingPuzzle.get(i).get(j));
+					}
+				}
+				numCol++;
+			}
+		}
+		
 		for (int i=0; i<9; i++) {
 			for (int j=0; j<9; j++) {
-				if (playingPuzzle.get(i).get(j) != solvedPuzzle.get(i).get(j)) {
+				if (!playingPuzzle.get(j).contains(i+1) || !cols.get(j).contains(i+1) || !box.get(j).contains(i+1)) {
 					return false;
 				}
 			}
@@ -65,7 +121,7 @@ public class Puzzle {
 	 * 
 	 * @param row
 	 * @param colunm
-	 * @return bolean
+	 * @return boolean
 	 */
 	public boolean check(int row, int col) {
 		if(playingPuzzle.get(row).get(col) == solvedPuzzle.get(row).get(col)) 
@@ -79,7 +135,7 @@ public class Puzzle {
 	 * 
 	 * @param row
 	 * @param colunm
-	 * @return bolean
+	 * @return boolean
 	 */
 	public boolean checkOriginal(int row, int col) {
 		if(playingPuzzle.get(row).get(col) == originalPuzzle.get(row).get(col)) 
@@ -88,22 +144,8 @@ public class Puzzle {
 			return false;
 	}
 	
-//	public void display() {
-//		display(playingPuzzle);
-//	}
-//	
-//	public void displaySolved() {
-//		display(solvedPuzzle);
-//	}
-//	
-//	private void display(List<ArrayList<Integer>> puzzle) {
-//		for (int i=0; i<9; i++) {
-//			for (int j=0; j<9; j++) {
-//				System.out.print(puzzle.get(i).get(j) + " ");
-//			}
-//			System.out.println();
-//		}
-//		System.out.println();
-//	}
+	public Integer getSolved(int row, int col) {
+		return solvedPuzzle.get(row).get(col);
+	}
 
 }
