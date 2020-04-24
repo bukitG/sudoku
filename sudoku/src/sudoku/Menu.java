@@ -14,13 +14,16 @@ import javax.swing.SwingConstants;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 
-import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu extends JFrame {
+	/**
+	 * Serial Version 7141832526268101244L
+	 */
+	private static final long serialVersionUID = 7141832526268101244L;
 	public static Menu frame;
 	private JPanel contentPane;
 	private final ButtonGroup level = new ButtonGroup();

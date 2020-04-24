@@ -24,6 +24,10 @@ import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 
 public class Game extends JFrame {
+	/**
+	 * Serial Version 8632333650720793099L.
+	 */
+	private static final long serialVersionUID = 8632333650720793099L;
 	private JPanel contentPane;
 	private Puzzle puzzle;
 	private JComponent[][] grid;
@@ -33,12 +37,6 @@ public class Game extends JFrame {
 	 * Launch the application.
 	 */
 	public void run(Difficulty diff) {
-		JOptionPane.showMessageDialog(null,
-				"Quick Instructions:\nCheck Button: Tells you what is wrong or right\n"
-				+ "Solved Button: Tells you if it is totally solved or not.\n"
-				+ "New Game Button: Sends you Back to the menu and gets rid of current game.\n"
-				+ "Save: Saves to file for later or to have friends try.\n"
-				+ "Restart: sets it back to original.");
 		try {
 			Game frame = new Game(diff, puzzle);
 			frame.setVisible(true);
@@ -81,7 +79,7 @@ public class Game extends JFrame {
 	 */
 	private JLabel title() {
 		JLabel lblTitle = new JLabel("Sudoku");
-		lblTitle.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 36));
+		lblTitle.setFont(new Font("Tw Cen MT Condensed Extra Bold", Font.PLAIN, 42));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		return lblTitle;
 	}
@@ -95,10 +93,12 @@ public class Game extends JFrame {
 		JPanel sideControl = new JPanel();
 		JPanel topControl = new JPanel();
 		JPanel bottomControl = new JPanel();
+		JPanel middle = new JPanel();
 		sideControl.setLayout(new BorderLayout(0, 0));
 		topControl.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		sideControl.add(bottomControl, BorderLayout.SOUTH);
 		sideControl.add(topControl, BorderLayout.NORTH);
+		sideControl.add(middle, BorderLayout.CENTER);
 
 		JButton btnCheck = new JButton("Check");
 		btnCheck.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -166,7 +166,20 @@ public class Game extends JFrame {
 			}
 		});
 		bottomControl.add(btnNewGame);
-
+		
+		JButton btnInstructions = new JButton("Instructions");
+		btnInstructions.setFont(new Font("Tahoma", Font.PLAIN, 22));
+		btnInstructions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null,
+						"Quick Instructions:\nCheck Button: Tells you if your guesses match the solution puzzle.\n"
+						+ "Solved Button: Tells you if it is totally solved or not.\n"
+						+ "New Game Button: Sends you Back to the menu and gets rid of current game.\n"
+						+ "Save: Saves to file for later or to have friends try.\n"
+						+ "Restart: sets it back to original.");
+			}
+		});
+		middle.add(btnInstructions);
 		return sideControl;
 	}
 

@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Puzzle implements Serializable{
 	/**
-	 * 
+	 * Serial version 8801662294765010210L.
 	 */
 	private static final long serialVersionUID = 8801662294765010210L;
 	private final List<ArrayList<Integer>> originalPuzzle;
