@@ -54,12 +54,6 @@ public class PuzzleCreator {
 		catch(Exception e) {
 			JOptionPane.showMessageDialog(null, "The puzzle could not be exported to a file.");
 		}
-		
-		/*try (ObjectOutputStream serializer = new ObjectOutputStream(new FileOutputStream(fileName))) {
-    		serializer.writeObject(puzzle);
-    	} catch (IOException e) {
-    		JOptionPane.showMessageDialog(null, "The puzzle could not be exported to a file.");
-		}*/
 	}
 	
 	/**
@@ -113,14 +107,6 @@ public class PuzzleCreator {
 		catch(Exception e) {
 			JOptionPane.showMessageDialog(null, "An error occurred. Starting game with an easy puzzle");
 		}
-		/*try (ObjectInputStream deserializer = new ObjectInputStream(new FileInputStream(fileName))) {
-    		Puzzle demo = (Puzzle)deserializer.readObject();
-    		return demo;
-    	} catch (IOException e) {
-    		JOptionPane.showMessageDialog(null, "An error occurred. Starting game with an easy puzzle");
-		} catch (ClassNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "An error occurred. Starting game with an easy puzzle");
-		}*/
 		return generate(Difficulty.EASY);
 	}
 	

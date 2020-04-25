@@ -45,6 +45,15 @@ public class Puzzle implements Serializable{
 		this.difficulty = difficulty;
 	}
 	
+	/**
+	 * Constructs a puzzle object. This constructor allows the user to retrieve a partially completed puzzle by taking in the
+	 * playing puzzle as an argument.
+	 * 
+	 * @param puzzle the original puzzle
+	 * @param playingPuzzle the partially finished puzzle
+	 * @param solvedPuzzle the solved puzzle
+	 * @param difficulty the difficulty of the puzzle
+	 */
 	public Puzzle(ArrayList<ArrayList<Integer>> puzzle, ArrayList<ArrayList<Integer>> playingPuzzle, ArrayList<ArrayList<Integer>> solvedPuzzle, Difficulty difficulty) {
 		this(puzzle, solvedPuzzle, difficulty);
 		this.playingPuzzle = new ArrayList<ArrayList<Integer>>();
@@ -56,8 +65,10 @@ public class Puzzle implements Serializable{
         }
 		this.difficulty = difficulty;
 	}
+	
 	/**
 	 * Determines if the puzzle has been solved.
+	 * 
 	 * @return true if the puzzle has been solved.
 	 */
 	public boolean isSolved() {
@@ -97,12 +108,19 @@ public class Puzzle implements Serializable{
 		return difficulty;
 	}
 	
+	/**
+	 * Returns the value of the playing puzzle at a given location.
+	 * 
+	 * @param row
+	 * @param col
+	 * @return the value held at a given row and column location
+	 */
 	public Integer get(int row, int col) {
 		return playingPuzzle.get(row).get(col);
 	}
 	
 	/**
-	 * Returns the value at a position.
+	 * Returns the value of the original puzzle at a position.
 	 * 
 	 * @param row
 	 * @param col
@@ -112,6 +130,13 @@ public class Puzzle implements Serializable{
 		return originalPuzzle.get(row).get(col);
 	}
 	
+	/**
+	 * Set the value of the playing puzzle at a given location.
+	 * 
+	 * @param row
+	 * @param col
+	 * @param number the number to be set
+	 */
 	public void set(int row, int col, int number) {
 		playingPuzzle.get(row).set(col, number);
 	}
@@ -143,9 +168,4 @@ public class Puzzle implements Serializable{
 		else
 			return false;
 	}
-	
-	public Integer getSolved(int row, int col) {
-		return solvedPuzzle.get(row).get(col);
-	}
-
 }

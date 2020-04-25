@@ -59,7 +59,7 @@ public class Game extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Game.class.getResource("/Resources/soduku.png")));
 		setTitle("Play");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 692, 577);
+		setBounds(100, 100, 692, 585);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
